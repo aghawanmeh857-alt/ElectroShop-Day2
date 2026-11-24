@@ -1,0 +1,42 @@
+<h2>Product Details</h2>
+
+<div class="product-details">
+
+  <img [src]="productImage" [alt]="productName">
+
+  <div class="details">
+
+    <h3>{{ productName }}</h3>
+
+    <p>{{ productDescription }}</p>
+
+    <p>Price: ${{ productPrice }}</p>
+
+    <p>Status: {{ isAvailable ? 'Available' : 'Unavailable' }}</p>
+
+    <p>Discount: {{ discountPercentage }}%</p>
+
+    <div class="quantity">
+      <button
+        (click)="decreaseQuantity()"
+        [disabled]="quantity <= 1">
+        -
+      </button>
+
+      <span>{{ quantity }}</span>
+
+      <button (click)="increaseQuantity()">
+        +
+      </button>
+    </div>
+
+    <p>Total Price: ${{ productPrice * quantity }}</p>
+
+    <p>
+      Total After Discount:
+      ${{ productPrice * quantity * (1 - discountPercentage / 100) }}
+    </p>
+
+  </div>
+
+</div>

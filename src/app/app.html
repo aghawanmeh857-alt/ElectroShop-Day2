@@ -1,44 +1,9 @@
-<header>
-  <h1>{{ storeName }}</h1>
-  <p>{{ storeDescription }}</p>
-  <p>{{ storeAddress }}</p>
+<app-header></app-header>
 
-  @if (isStoreOpen) {
-    <p>We Are Open</p>
-  } @else {
-    <p>We Are Closed</p>
-  }
-</header>
+<app-navbar></app-navbar>
 
-<main>
-  <section>
-    <h2>Featured Product</h2>
-    <h3>{{ featuredProduct.name }}</h3>
-    <p>{{ featuredProduct.description }}</p>
+<app-product-list></app-product-list>
 
-    <p>Original Price: {{ currency }} {{ featuredProduct.price }}</p>
-    <p>Final Price: {{ currency }} {{ discountedPrice }}</p>
-    <p>{{ discountPercentage }}% Discount</p>
-  </section>
+<app-product-details></app-product-details>
 
-  <section>
-    <h2>Our Products</h2>
-
-    @for (productName of productNames; track productName; let i = $index) {
-      @if (productName !== featuredProduct.name) {
-        <article>
-          <h3>{{ productName }}</h3>
-          <p>{{ currency }} {{ productPrices[i] }}</p>
-        </article>
-      }
-    }
-  </section>
-
-  <section>
-    <h2>Store Summary</h2>
-    <p>Total Products: {{ totalProducts }}</p>
-    <p>Highest Price: {{ currency }} {{ mostExpensivePrice }}</p>
-    <p>Lowest Price: {{ currency }} {{ cheapestPrice }}</p>
-    <p>Total Products Value: {{ currency }} {{ totalProductsValue }}</p>
-  </section>
-</main>
+<app-footer></app-footer>
