@@ -1,29 +1,46 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  signal,
+} from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { CartSelection } from '../product.model';
 
 @Component({
   selector: 'app-product-details',
-  imports: [],
+  standalone: true,
+  imports: [CurrencyPipe],
   templateUrl: './product-details.html',
-  styleUrl: './product-details.css'
+  styleUrl: './product-details.css',
 })
-export class ProductDetails {
+export class ProductDetails implements OnChanges {
+  @Input() productName = 'Laptop';
+  @Input() productDescription = 'Dell Laptop, Core i7, 16GB RAM';
+  @Input() productPrice = 850;
+  @Input() isAvailable = true;
+  @Input() productImage = 'images/laptop.jpg';
+  @Output() readonly addToCart = new EventEmitter<CartSelection>();
 
-  productName: string = 'Laptop';
-  productDescription: string = 'High-performance laptop';
-  productPrice: number = 750;
-  productImage: string = 'images/laptop.jpg';
-  quantity: number = 1;
-  isAvailable: boolean = true;
-  discountPercentage: number = 10;
+  readonly quantity = signal(1);
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['productName']) this.quantity.set(1);
+  }
 
   increaseQuantity(): void {
-    this.quantity++;
+    this.quantity.update((quantity) => quantity + 1);
   }
 
   decreaseQuantity(): void {
-    if (this.quantity > 1) {
-      this.quantity--;
-    }
+    this.quantity.update((quantity) => Math.max(1, quantity - 1));
   }
 
+  addProduct(): void {
+    if (!this.isAvailable) return;
+    this.addToCart.emit({ name: this.productName, quantity: this.quantity() });
+  }
 }

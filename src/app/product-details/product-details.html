@@ -1,42 +1,45 @@
-<h2>Product Details</h2>
-
-<div class="product-details">
-
-  <img [src]="productImage" [alt]="productName">
-
-  <div class="details">
-
-    <h3>{{ productName }}</h3>
-
-    <p>{{ productDescription }}</p>
-
-    <p>Price: ${{ productPrice }}</p>
-
-    <p>Status: {{ isAvailable ? 'Available' : 'Unavailable' }}</p>
-
-    <p>Discount: {{ discountPercentage }}%</p>
-
-    <div class="quantity">
-      <button
-        (click)="decreaseQuantity()"
-        [disabled]="quantity <= 1">
-        -
-      </button>
-
-      <span>{{ quantity }}</span>
-
-      <button (click)="increaseQuantity()">
-        +
-      </button>
+<section class="product" aria-labelledby="product-heading">
+  <p class="section-label">PRODUCT DETAILS</p>
+  <div class="product-image">
+    <img [src]="productImage" [alt]="productName" width="460" height="280" />
+  </div>
+  <div class="product-info">
+    <div class="product-heading">
+      <h2 id="product-heading">{{ productName }}</h2>
+      <span class="availability" [class.unavailable]="!isAvailable">
+        {{ isAvailable ? 'Available' : 'Unavailable' }}
+      </span>
     </div>
-
-    <p>Total Price: ${{ productPrice * quantity }}</p>
-
-    <p>
-      Total After Discount:
-      ${{ productPrice * quantity * (1 - discountPercentage / 100) }}
+    <p class="description">{{ productDescription }}</p>
+    <p class="price">
+      {{ productPrice | currency: 'USD' : 'symbol' : '1.0-2' }} <span>/ each</span>
     </p>
 
+    <div class="purchase">
+      <div>
+        <p class="quantity-label">Quantity</p>
+        <div class="quantity" role="group" aria-label="Product quantity">
+          <button
+            type="button"
+            aria-label="Decrease quantity"
+            (click)="decreaseQuantity()"
+            [disabled]="quantity() <= 1"
+          >
+            −
+          </button>
+          <span aria-live="polite" aria-atomic="true">{{ quantity() }}</span>
+          <button type="button" aria-label="Increase quantity" (click)="increaseQuantity()">
+            +
+          </button>
+        </div>
+      </div>
+      <button type="button" class="add-button" (click)="addProduct()" [disabled]="!isAvailable">
+        Add to Cart <span aria-hidden="true">↗</span>
+      </button>
+    </div>
+    <p class="selection-total">
+      Selection total
+      <strong>{{ productPrice * quantity() | currency: 'USD' : 'symbol' : '1.0-2' }}</strong>
+    </p>
   </div>
-
-</div>
+</section>

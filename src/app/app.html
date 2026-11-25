@@ -1,9 +1,42 @@
-<app-header></app-header>
+<app-header />
 
-<app-navbar></app-navbar>
+<main class="store">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">THE EVERYDAY ESSENTIALS</p>
+      <h1>Good tech. Simple choices.</h1>
+      <p>Pick your product, choose a quantity, and add it to your cart.</p>
+    </div>
+    <div class="product-picker" role="group" aria-label="Choose a product">
+      <button
+        type="button"
+        (click)="selectProduct('laptop')"
+        [attr.aria-pressed]="productName() === 'Laptop'"
+      >
+        Laptop
+      </button>
+      <button
+        type="button"
+        (click)="selectProduct('headphones')"
+        [attr.aria-pressed]="productName() === 'Wireless Headphones'"
+      >
+        Headphones
+      </button>
+    </div>
+  </div>
 
-<app-product-list></app-product-list>
+  <div class="shopping-layout">
+    <app-product-details
+      [productName]="productName()"
+      [productDescription]="productDescription()"
+      [productPrice]="productPrice()"
+      [isAvailable]="productAvailability()"
+      [productImage]="productImage()"
+      (addToCart)="addToCart($event)"
+    />
+    <app-shopping-cart [items]="cartItems()" />
+  </div>
+  <p class="cart-message" role="status">{{ cartMessage() }}</p>
+</main>
 
-<app-product-details></app-product-details>
-
-<app-footer></app-footer>
+<app-footer />

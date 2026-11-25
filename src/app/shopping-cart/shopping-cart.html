@@ -1,0 +1,54 @@
+<section class="cart" aria-labelledby="cart-heading">
+  <div class="cart-heading">
+    <h2 id="cart-heading">Shopping Cart</h2>
+    <span class="count" [attr.aria-label]="totalQuantity + ' items in cart'">{{
+      totalQuantity
+    }}</span>
+  </div>
+  @if (items.length === 0) {
+    <div class="empty-cart">
+      <svg
+        viewBox="0 0 48 48"
+        width="48"
+        height="48"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        aria-hidden="true"
+      >
+        <path
+          d="M7 9h5l5 24h22l4-17H14M19 39h.01M36 39h.01"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <h3>Your cart is empty</h3>
+      <p>Choose a product to get started.</p>
+    </div>
+  } @else {
+    <ul class="cart-items">
+      @for (item of items; track item.name) {
+        <li>
+          <h3>{{ item.name }}</h3>
+          <dl>
+            <div>
+              <dt>Unit Price</dt>
+              <dd>{{ item.price | currency: 'USD' : 'symbol' : '1.0-2' }}</dd>
+            </div>
+            <div>
+              <dt>Quantity</dt>
+              <dd>{{ item.quantity }}</dd>
+            </div>
+            <div class="line-total">
+              <dt>Total Price</dt>
+              <dd>{{ item.price * item.quantity | currency: 'USD' : 'symbol' : '1.0-2' }}</dd>
+            </div>
+          </dl>
+        </li>
+      }
+    </ul>
+  }
+  <div class="cart-total">
+    <span>Total Price</span><strong>{{ totalPrice | currency: 'USD' : 'symbol' : '1.0-2' }}</strong>
+  </div>
+</section>
