@@ -1,70 +1,98 @@
 <h2>Our Products</h2>
 
+<section class="categories" aria-labelledby="categories-heading">
+  <h3 id="categories-heading">Product Categories</h3>
+  <ul class="category-list">
+    <li>All Products</li>
+    <li>Electronics</li>
+    <li>Accessories</li>
+  </ul>
+
+  <p>Selected Category: {{ selectedCategory }}</p>
+
+  @if (selectedCategory === 'All Products') {
+    <p>Explore all the products in ElectroShop.</p>
+  } @else if (selectedCategory === 'Electronics') {
+    <p>Discover our laptops, smartphones, tablets, and monitors.</p>
+  } @else if (selectedCategory === 'Accessories') {
+    <p>Discover our headphones, smart watches, keyboards, and gaming mice.</p>
+  } @else {
+    <p>Please select a product category.</p>
+  }
+</section>
+
 <div class="products">
 
-  <!-- Laptop -->
-  <div class="product-card">
-    <img [src]="products[0].image">
-    <h3>{{ products[0].name }}</h3>
-    <p>{{ products[0].description }}</p>
-    <p>Price: ${{ products[0].price }}</p>
-    <button
-      [disabled]="!products[0].isAvailable"
-      (click)="buyProduct(products[0].name)">
-      Buy Now
-    </button>
-  </div>
+  @for (product of products; track product.id) {
+    <div class="product-card"
+      [ngClass]="{
+        'discount-card': product.discount > 0,
+        'available-card': product.isAvailable,
+        'unavailable-card': !product.isAvailable,
+        'premium-card': product.price > 500
+      }"
+      [ngStyle]="{
+        'opacity': product.isAvailable ? 1 : 0.8
+      }">
 
-  <!-- Smartphone -->
-  <div class="product-card">
-    <img [src]="products[1].image">
-    <h3>{{ products[1].name }}</h3>
-    <p>{{ products[1].description }}</p>
-    <p>Price: ${{ products[1].price }}</p>
-    <button
-      [disabled]="!products[1].isAvailable"
-      (click)="buyProduct(products[1].name)">
-      Buy Now
-    </button>
-  </div>
+      <img [src]="product.image" [alt]="product.name"
+        width="210" height="160" loading="lazy">
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.description }}</p>
+      <p>{{ product.category }}</p>
 
-  <!-- Headphones -->
-  <div class="product-card">
-    <img [src]="products[2].image">
-    <h3>{{ products[2].name }}</h3>
-    <p>{{ products[2].description }}</p>
-    <p>Price: ${{ products[2].price }}</p>
-    <button
-      [disabled]="!products[2].isAvailable"
-      (click)="buyProduct(products[2].name)">
-      Buy Now
-    </button>
-  </div>
+      <p class="price"
+        [ngStyle]="{
+          'color': product.discount > 0 ? 'red' : 'black',
+          'font-size': product.price > 500 ? '28px' : '20px'
+        }">
+        Price: {{ product.price }} JD
+      </p>
 
-  <!-- Smart Watch -->
-  <div class="product-card">
-    <img [src]="products[3].image">
-    <h3>{{ products[3].name }}</h3>
-    <p>{{ products[3].description }}</p>
-    <p>Price: ${{ products[3].price }}</p>
-    <button
-      [disabled]="!products[3].isAvailable"
-      (click)="buyProduct(products[3].name)">
-      Buy Now
-    </button>
-  </div>
+      @if (product.isAvailable) {
+        <p class="availability">Available</p>
+      } @else {
+        <p class="availability">Out of Stock</p>
+      }
 
-  <!-- Keyboard -->
-  <div class="product-card">
-    <img [src]="products[4].image">
-    <h3>{{ products[4].name }}</h3>
-    <p>{{ products[4].description }}</p>
-    <p>Price: ${{ products[4].price }}</p>
-    <button
-      [disabled]="!products[4].isAvailable"
-      (click)="buyProduct(products[4].name)">
-      Buy Now
-    </button>
-  </div>
+      @if (product.discount > 0) {
+        <p class="offer">Special Offer: {{ product.discount }}% off</p>
+      } @else {
+        <p class="offer">No Discount</p>
+      }
+
+      @if (product.price > 500) {
+        <p class="premium-label">Premium Product</p>
+      }
+
+      @if (product.isAvailable) {
+        <button type="button" (click)="buyProduct(product.name)">
+          Buy Now
+        </button>
+      }
+    </div>
+  }
 
 </div>
+
+<section class="order-status" aria-labelledby="order-heading">
+  <h3 id="order-heading">Order Status: {{ orderStatus }}</h3>
+
+  @switch (orderStatus) {
+    @case ('Pending') {
+      <p>Your order is waiting for confirmation.</p>
+    }
+    @case ('Processing') {
+      <p>Your order is being prepared.</p>
+    }
+    @case ('Shipped') {
+      <p>Your order has been shipped.</p>
+    }
+    @case ('Delivered') {
+      <p>Your order has been delivered.</p>
+    }
+    @default {
+      <p>Unknown Order Status.</p>
+    }
+  }
+</section>

@@ -3,6 +3,7 @@ import { Header } from './header/header';
 import { Footer } from './footer/footer';
 import { ProductDetails } from './product-details/product-details';
 import { ShoppingCart } from './shopping-cart/shopping-cart';
+import { ProductList } from './product-list/product-list';
 import { CartItem, CartSelection, Product } from './product.model';
 
 const PRODUCTS = {
@@ -25,7 +26,7 @@ const PRODUCTS = {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [Header, ProductDetails, ShoppingCart, Footer],
+  imports: [Header, ProductList, ProductDetails, ShoppingCart, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

@@ -73,4 +73,9 @@ describe('App', () => {
     app.addToCart({ name: 'Laptop', quantity: 1 });
     expect(app.cartItems()).toEqual([{ name: 'Laptop', price: 850, quantity: 3 }]);
   });
+  it('displays the dynamic product list on the main page', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    expect(fixture.nativeElement.querySelectorAll('app-product-list .product-card')).toHaveLength(8);
+  });
 });
